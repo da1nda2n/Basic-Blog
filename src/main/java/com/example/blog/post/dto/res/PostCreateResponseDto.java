@@ -8,12 +8,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PostCreateResponseDto {
+    private Long postId;
     private String title;
     private String content;
     private boolean isMain;
 
     @Builder
-    public PostCreateResponseDto(String title, String content, boolean isMain) {
+    public PostCreateResponseDto(Long postId, String title, String content, boolean isMain) {
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.isMain = isMain;
@@ -22,6 +24,7 @@ public class PostCreateResponseDto {
 
     public static PostCreateResponseDto from(PostEntity post) {
         return PostCreateResponseDto.builder()
+                .postId(post.getPostId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .isMain(post.isMain())

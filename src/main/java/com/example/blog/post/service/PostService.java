@@ -19,10 +19,11 @@ public class PostService {
 
     //게시글 작성
     public PostEntity create(PostCreateRequestDto postCreateRequestDto) {
-        PostEntity post = new PostEntity();
-        post.setTitle(postCreateRequestDto.getTitle());
-        post.setContent(postCreateRequestDto.getContent());
-        post.setMain(postCreateRequestDto.isMain());
+        PostEntity post = PostEntity.builder()
+                .title(postCreateRequestDto.getTitle())
+                .content(postCreateRequestDto.getContent())
+                .isMain(postCreateRequestDto.isMain())
+                .build();
         return postRepository.save(post);
     }
 
@@ -43,13 +44,12 @@ public class PostService {
     }
 
     //게시글 수정
-    public PostEntity update(Long postId, PostUpdateRequestDto postUpdateRequestDto) {
-        PostEntity post = postRepository.findByPostId(postId)
-                .orElseThrow(()-> new RuntimeException("존재하지 않는 게시글입니다."));
-
-        post.setTitle(postUpdateRequestDto.getTitle());
-        post.setContent(postUpdateRequestDto.getContent());
-        post.setMain(postUpdateRequestDto.isMain());
+    public PostEntity update(PostUpdateRequestDto postUpdateRequestDto) {
+        PostEntity post = PostEntity.builder()
+                .title(postUpdateRequestDto.getTitle())
+                .content(postUpdateRequestDto.getContent())
+                .isMain(postUpdateRequestDto.isMain())
+                .build();
         return postRepository.save(post);
     }
 
