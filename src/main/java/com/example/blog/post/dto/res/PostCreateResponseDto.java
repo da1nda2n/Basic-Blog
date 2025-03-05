@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class PostCreateResponseDto {
@@ -12,13 +14,15 @@ public class PostCreateResponseDto {
     private String title;
     private String content;
     private boolean isMain;
+    private LocalDateTime createTime;
 
     @Builder
-    public PostCreateResponseDto(Long postId, String title, String content, boolean isMain) {
+    public PostCreateResponseDto(Long postId, String title, String content, boolean isMain, LocalDateTime createdAt) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.isMain = isMain;
+        this.createTime = createdAt;
     }
 
 
@@ -28,6 +32,7 @@ public class PostCreateResponseDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .isMain(post.isMain())
+                .createdAt(post.getPostTime())
                 .build();
     }
 }

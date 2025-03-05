@@ -37,7 +37,7 @@ public class UserController {
     }
 
     //로그인
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginRequestDto loginRequest) {
         UserEntity userEntity = userService.login(loginRequest);
         UserLoginResponseDto responseDto = UserLoginResponseDto.from(userEntity);

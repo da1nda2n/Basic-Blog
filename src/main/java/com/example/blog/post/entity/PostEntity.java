@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "post")
+@Table(name = "posts")
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

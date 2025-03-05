@@ -5,9 +5,11 @@ import com.example.blog.post.dto.req.PostUpdateRequestDto;
 import com.example.blog.post.dto.res.PostGetResponseDto;
 import com.example.blog.post.entity.PostEntity;
 import com.example.blog.post.repository.PostRepository;
+import com.example.blog.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class PostService {
                 .title(postCreateRequestDto.getTitle())
                 .content(postCreateRequestDto.getContent())
                 .isMain(postCreateRequestDto.isMain())
+                .postTime(LocalDateTime.now())
                 .build();
         return postRepository.save(post);
     }
@@ -44,13 +47,15 @@ public class PostService {
     }
 
     //게시글 수정
-    public PostEntity update(PostUpdateRequestDto postUpdateRequestDto) {
-        PostEntity post = PostEntity.builder()
+    public PostEntity update(Long postId, PostUpdateRequestDto postUpdateRequestDto) {
+        PostEntity existingPost = postRepository.findByPostId(postId)
+                .orElseThrow(()-> new RuntimeException("존재하지 않는 게시글입니다."));
+        PostEntity updatedPost = existingPost.toBuilder()
                 .title(postUpdateRequestDto.getTitle())
                 .content(postUpdateRequestDto.getContent())
                 .isMain(postUpdateRequestDto.isMain())
                 .build();
-        return postRepository.save(post);
+        return postRepository.save(updatedPost);
     }
 
     //게시글 삭제

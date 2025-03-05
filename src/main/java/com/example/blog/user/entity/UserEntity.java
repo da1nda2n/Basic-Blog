@@ -10,7 +10,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Builder(toBuilder = true)
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +51,7 @@ public class UserEntity {
     }
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostEntity> post;
+    private List<PostEntity> posts;
 
 
 }

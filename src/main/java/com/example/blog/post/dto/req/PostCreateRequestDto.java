@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 public class PostCreateRequestDto {
@@ -16,5 +18,10 @@ public class PostCreateRequestDto {
 
     @NotNull
     private boolean isMain;
+
+    @NotNull
+    private LocalDateTime createTime;
+
+
 
 }
