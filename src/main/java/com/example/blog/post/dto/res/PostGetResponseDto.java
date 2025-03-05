@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class PostListResponseDto {
+public class PostGetResponseDto {
     private Long postId;
     private LocalDateTime postTime;
     private String title;
@@ -17,7 +17,7 @@ public class PostListResponseDto {
     private boolean isMain;
 
     @Builder
-    public PostListResponseDto(Long postId, LocalDateTime postTime, String title, String content, boolean isMain) {
+    public PostGetResponseDto(Long postId, LocalDateTime postTime, String title, String content, boolean isMain) {
         this.postId = postId;
         this.postTime = postTime;
         this.title = title;
@@ -25,8 +25,8 @@ public class PostListResponseDto {
         this.isMain = isMain;
     }
 
-    public static PostListResponseDto from(PostEntity post) {
-        return PostListResponseDto.builder()
+    public static PostGetResponseDto from(PostEntity post) {
+        return PostGetResponseDto.builder()
                 .postId(post.getPostId())
                 .title(post.getTitle())
                 .content(post.getContent())

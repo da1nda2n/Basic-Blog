@@ -2,8 +2,7 @@ package com.example.blog.post.service;
 
 import com.example.blog.post.dto.req.PostCreateRequestDto;
 import com.example.blog.post.dto.req.PostUpdateRequestDto;
-import com.example.blog.post.dto.res.PostDeleteResponseDto;
-import com.example.blog.post.dto.res.PostListResponseDto;
+import com.example.blog.post.dto.res.PostGetResponseDto;
 import com.example.blog.post.entity.PostEntity;
 import com.example.blog.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +26,25 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    //게시글 조회(열람)
-    public List<PostListResponseDto> getUserList() {
+    //개별 게시글 조회(열람)
+    public PostEntity getPost(Long postId) {
+        return postRepository.findByPostId(postId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+    }
+
+    //게시글 리스트 조회
+    public List<PostGetResponseDto> getPostList() {
         List<PostEntity> postEntities = postRepository.findAll();
-        List<PostListResponseDto> postListResponseDtoList = new ArrayList<>();
+        List<PostGetResponseDto> postListResponseDtoListShow = new ArrayList<>();
         for (PostEntity postEntity : postEntities) {
-            postListResponseDtoList.add(PostListResponseDto.from(postEntity));
+            postListResponseDtoListShow.add(PostGetResponseDto.from(postEntity));
         }
-        return postListResponseDtoList;
+        return postListResponseDtoListShow;
     }
 
     //게시글 수정
     public PostEntity update(Long postId, PostUpdateRequestDto postUpdateRequestDto) {
-        PostEntity post = postRepository.findById(postId)
+        PostEntity post = postRepository.findByPostId(postId)
                 .orElseThrow(()-> new RuntimeException("존재하지 않는 게시글입니다."));
 
         post.setTitle(postUpdateRequestDto.getTitle());
@@ -49,11 +54,10 @@ public class PostService {
     }
 
     //게시글 삭제
-    public PostDeleteResponseDto delete(Long postId) {
-        PostEntity post = postRepository.findById(postId)
-                .orElseThrow(()-> new RuntimeException("존재하지 않는 게시글입니다."));
-
+    public PostEntity delete(Long postId) {
+        PostEntity post = postRepository.findByPostId(postId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
         postRepository.delete(post);
-        return new PostDeleteResponseDto("게시글이 삭제되었습니다.");
+        return post;
     }
 }
