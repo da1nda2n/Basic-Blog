@@ -10,8 +10,6 @@ import com.example.blog.user.dto.res.UserUpdateResponseDto;
 import com.example.blog.user.entity.UserEntity;
 import com.example.blog.user.service.UserService;
 import jakarta.validation.Valid;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

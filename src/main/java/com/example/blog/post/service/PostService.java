@@ -5,7 +5,6 @@ import com.example.blog.post.dto.req.PostUpdateRequestDto;
 import com.example.blog.post.dto.res.PostGetResponseDto;
 import com.example.blog.post.entity.PostEntity;
 import com.example.blog.post.repository.PostRepository;
-import com.example.blog.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class PostService {
         PostEntity post = PostEntity.builder()
                 .title(postCreateRequestDto.getTitle())
                 .content(postCreateRequestDto.getContent())
-                .isMain(postCreateRequestDto.isMain())
+                .featured(postCreateRequestDto.isFeatured())
                 .postTime(LocalDateTime.now())
                 .build();
         return postRepository.save(post);
@@ -53,7 +52,7 @@ public class PostService {
         PostEntity updatedPost = existingPost.toBuilder()
                 .title(postUpdateRequestDto.getTitle())
                 .content(postUpdateRequestDto.getContent())
-                .isMain(postUpdateRequestDto.isMain())
+                .featured(postUpdateRequestDto.isFeatured())
                 .build();
         return postRepository.save(updatedPost);
     }

@@ -13,5 +13,5 @@ public class PostUpdateRequestDto {
     private String content;
 
     @NotNull
-    private boolean isMain;
+    private boolean featured;
 }

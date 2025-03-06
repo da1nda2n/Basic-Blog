@@ -27,15 +27,15 @@ public class PostEntity {
     private String content;
 
     @Column(nullable = false)
-    private boolean isMain;
+    private boolean featured;
 
     @Builder
-    public PostEntity(Long postId, LocalDateTime postTime, String title, String content, boolean isMain) {
+    public PostEntity(Long postId, LocalDateTime postTime, String title, String content, boolean featured) {
         this.postId = postId;
         this.postTime = postTime;
         this.title = title;
         this.content = content;
-        this.isMain = isMain;
+        this.featured = featured;
     }
 
     @ManyToOne

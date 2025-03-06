@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 public class PostUpdateResponseDto {
     private String title;
     private String content;
-    private boolean isMain;
+    private boolean featured;
 
     @Builder
-    public PostUpdateResponseDto(String title, String content, boolean isMain) {
+    public PostUpdateResponseDto(String title, String content, boolean featured) {
         this.title = title;
         this.content = content;
-        this.isMain = isMain;
+        this.featured = featured;
     }
 
 
@@ -24,7 +24,7 @@ public class PostUpdateResponseDto {
         return PostUpdateResponseDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
-                .isMain(post.isMain())
+                .featured(post.isFeatured())
                 .build();
     }
 }

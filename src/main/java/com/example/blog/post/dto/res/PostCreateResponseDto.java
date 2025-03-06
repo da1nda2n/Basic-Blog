@@ -13,16 +13,16 @@ public class PostCreateResponseDto {
     private Long postId;
     private String title;
     private String content;
-    private boolean isMain;
-    private LocalDateTime createTime;
+    private boolean featured;
+    private LocalDateTime postTime;
 
     @Builder
-    public PostCreateResponseDto(Long postId, String title, String content, boolean isMain, LocalDateTime createdAt) {
+    public PostCreateResponseDto(Long postId, String title, String content, boolean featured, LocalDateTime postTime) {
         this.postId = postId;
         this.title = title;
         this.content = content;
-        this.isMain = isMain;
-        this.createTime = createdAt;
+        this.featured = featured;
+        this.postTime = postTime;
     }
 
 
@@ -31,8 +31,8 @@ public class PostCreateResponseDto {
                 .postId(post.getPostId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .isMain(post.isMain())
-                .createdAt(post.getPostTime())
+                .featured(post.isFeatured())
+                .postTime(post.getPostTime())
                 .build();
     }
 }

@@ -14,23 +14,24 @@ public class PostGetResponseDto {
     private LocalDateTime postTime;
     private String title;
     private String content;
-    private boolean isMain;
+    private boolean featured;
 
     @Builder
-    public PostGetResponseDto(Long postId, LocalDateTime postTime, String title, String content, boolean isMain) {
+    public PostGetResponseDto(Long postId, LocalDateTime postTime, String title, String content, boolean featured) {
         this.postId = postId;
         this.postTime = postTime;
         this.title = title;
         this.content = content;
-        this.isMain = isMain;
+        this.featured = featured;
     }
 
     public static PostGetResponseDto from(PostEntity post) {
         return PostGetResponseDto.builder()
                 .postId(post.getPostId())
+                .postTime(post.getPostTime())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .isMain(post.isMain())
+                .featured(post.isFeatured())
                 .build();
     }
 }

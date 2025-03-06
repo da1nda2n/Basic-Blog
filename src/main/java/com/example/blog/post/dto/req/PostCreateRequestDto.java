@@ -17,10 +17,10 @@ public class PostCreateRequestDto {
     private String content;
 
     @NotNull
-    private boolean isMain;
+    private boolean featured;
 
     @NotNull
-    private LocalDateTime createTime;
+    private LocalDateTime postTime;
 
 
 
