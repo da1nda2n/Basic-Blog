@@ -1,5 +1,6 @@
 package com.example.blog.post.entity;
 
+import com.example.blog.post.dto.req.PostUpdateRequestDto;
 import com.example.blog.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder(toBuilder = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "posts")
@@ -36,6 +37,16 @@ public class PostEntity {
         this.title = title;
         this.content = content;
         this.featured = featured;
+    }
+
+    public PostEntity update(PostUpdateRequestDto dto) {
+        return new PostEntity(
+                this.postId,
+                this.postTime,
+                dto.getTitle() != null ? dto.getTitle() : this.title,
+                dto.getContent() != null ? dto.getContent() : this.content,
+                dto.isFeatured()
+        );
     }
 
     @ManyToOne

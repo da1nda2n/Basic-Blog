@@ -1,6 +1,7 @@
 package com.example.blog.user.entity;
 
 import com.example.blog.post.entity.PostEntity;
+import com.example.blog.user.dto.req.UserUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,6 +49,19 @@ public class UserEntity {
         this.birth = birth;
         this.phone = phone;
         this.introduction = introduction;
+    }
+
+    public UserEntity update(UserUpdateRequestDto dto) {
+        return new UserEntity(
+                this.loginId,
+                this.userId,
+                this.password,
+                dto.getName() != null ? dto.getName() : this.name,
+                dto.getLocation() != null ? dto.getLocation() : this.location,
+                dto.getBirth() != null ? dto.getBirth() : this.birth,
+                dto.getPhone() != null ? dto.getPhone() : this.phone,
+                dto.getIntroduction() != null ? dto.getIntroduction() : this.introduction
+        );
     }
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)

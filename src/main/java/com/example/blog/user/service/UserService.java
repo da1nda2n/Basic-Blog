@@ -43,15 +43,9 @@ public class UserService {
 
     //회원 정보(전체) 수정
     public UserEntity update(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
-        UserEntity existingUser = userRepository.findById(userId)
+        UserEntity existingUser = userRepository.findByUserId(userId)
                 .orElseThrow(()-> new RuntimeException("존재하지 않는 ID입니다."));
-        UserEntity updatedUser = existingUser.toBuilder()
-                .name(userUpdateRequestDto.getName())
-                .location(userUpdateRequestDto.getLocation())
-                .birth(userUpdateRequestDto.getBirth())
-                .phone(userUpdateRequestDto.getPhone())
-                .introduction(userUpdateRequestDto.getIntroduction())
-                .build();
+        UserEntity updatedUser = existingUser.update(userUpdateRequestDto);
         return userRepository.save(updatedUser);
     }
 

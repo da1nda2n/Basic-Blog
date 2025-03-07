@@ -48,12 +48,8 @@ public class PostService {
     //게시글 수정
     public PostEntity update(Long postId, PostUpdateRequestDto postUpdateRequestDto) {
         PostEntity existingPost = postRepository.findByPostId(postId)
-                .orElseThrow(()-> new RuntimeException("존재하지 않는 게시글입니다."));
-        PostEntity updatedPost = existingPost.toBuilder()
-                .title(postUpdateRequestDto.getTitle())
-                .content(postUpdateRequestDto.getContent())
-                .featured(postUpdateRequestDto.isFeatured())
-                .build();
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+        PostEntity updatedPost = existingPost.update(postUpdateRequestDto);
         return postRepository.save(updatedPost);
     }
 
