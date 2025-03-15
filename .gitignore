@@ -170,3 +170,6 @@ $RECYCLE.BIN/
 # Project exclude paths
 /.gradle/
 /build/
+
+
+application.properties

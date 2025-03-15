@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  springboot:
+    container_name: dain_blog
+    image: ${DOCKER_USER}/${DOCKER_REPO}:dain_blog  # Docker Hub에서 가져올 이미지
+    volumes:
+      - /home/serverking/dain_blog:app/image
+    ports:
+      - "8098:8098"
+    environment:
+      TZ: "Asia/Seoul"
