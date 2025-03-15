@@ -14,8 +14,8 @@ jobs:
       - name: Make Properties
         run: |
           mkdir ./src/main/resources
-          touch ./src/main/resources/application.yml
-          echo "${{ secrets.SECRET_PROPERTIES }}" > ./src/main/resources/application.yml
+          touch ./src/main/resources/application.properties
+          echo "${{ secrets.SECRET_PROPERTIES }}" > ./src/main/resources/application.properties
           touch ./.env
           echo "${{ secrets.ENV }}" > ./.env
 
