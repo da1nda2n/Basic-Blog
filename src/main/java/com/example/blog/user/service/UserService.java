@@ -1,7 +1,7 @@
 package com.example.blog.user.service;
 
 import com.example.blog.user.dto.req.*;
-import com.example.blog.user.dto.res.UserListResponseDto;
+import com.example.blog.user.dto.res.UserGetResponseDto;
 import com.example.blog.user.entity.UserEntity;
 import com.example.blog.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,14 +49,19 @@ public class UserService {
         return userRepository.save(updatedUser);
     }
 
-    //전체 회원 조회 -> 별도의 dto 필요?
-    public List<UserListResponseDto> getUserList() {
+    //전체 회원 조회
+    public List<UserGetResponseDto> getUserList() {
         List<UserEntity> userEntities = userRepository.findAll();
-        List<UserListResponseDto> userListResponseDtoList = new ArrayList<>();
+        List<UserGetResponseDto> userListResponse = new ArrayList<>();
         for (UserEntity userEntity : userEntities) {
-            userListResponseDtoList.add(UserListResponseDto.from(userEntity));
+            userListResponse.add(UserGetResponseDto.from(userEntity));
         }
-        return userListResponseDtoList;
+        return userListResponse;
+    }
+    //개별 회원 조회
+    public UserEntity getUser(Long userId) {
+        return userRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 ID입니다."));
     }
 
 }

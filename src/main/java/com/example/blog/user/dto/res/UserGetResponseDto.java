@@ -7,22 +7,22 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UserListResponseDto {
+public class UserGetResponseDto {
     private String name;
     private String location;
     private String birth;
     private String phone;
 
     @Builder
-    public UserListResponseDto(String name, String location, String birth, String phone) {
+    public UserGetResponseDto(String name, String location, String birth, String phone) {
         this.name = name;
         this.location = location;
         this.birth = birth;
         this.phone = phone;
     }
 
-    public static UserListResponseDto from(UserEntity user) {
-        return UserListResponseDto.builder()
+    public static UserGetResponseDto from(UserEntity user) {
+        return UserGetResponseDto.builder()
                 .name(user.getName())
                 .location(user.getLocation())
                 .birth(user.getBirth())

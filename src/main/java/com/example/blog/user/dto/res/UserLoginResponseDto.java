@@ -3,13 +3,11 @@ package com.example.blog.user.dto.res;
 import com.example.blog.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class UserLoginResponseDto {
-    private Long userId;
-    private String name;
+    private final Long userId;
+    private final String name;
 
     @Builder
     public UserLoginResponseDto(Long userId, String name) {
