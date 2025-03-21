@@ -40,7 +40,8 @@ public class PostService {
         List<PostEntity> postEntities = postRepository.findAll();
         List<PostGetResponseDto> postListResponseDtoListShow = new ArrayList<>();
         for (PostEntity postEntity : postEntities) {
-            postListResponseDtoListShow.add(PostGetResponseDto.from(postEntity));
+            String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
+            postListResponseDtoListShow.add(PostGetResponseDto.from(postEntity, name));
         }
         return postListResponseDtoListShow;
     }
