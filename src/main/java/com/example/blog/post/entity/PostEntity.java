@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "posts")
 public class PostEntity {
     @Id
@@ -30,13 +30,18 @@ public class PostEntity {
     @Column(nullable = false)
     private boolean featured;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity userId;
+
     @Builder
-    public PostEntity(Long postId, LocalDateTime postTime, String title, String content, boolean featured) {
+    public PostEntity(Long postId, LocalDateTime postTime, String title, String content, boolean featured, UserEntity userId) {
         this.postId = postId;
         this.postTime = postTime;
         this.title = title;
         this.content = content;
         this.featured = featured;
+        this.userId = userId;
     }
 
     public PostEntity update(PostUpdateRequestDto dto) {
@@ -45,11 +50,9 @@ public class PostEntity {
                 this.postTime,
                 dto.getTitle() != null ? dto.getTitle() : this.title,
                 dto.getContent() != null ? dto.getContent() : this.content,
-                dto.isFeatured()
+                dto.isFeatured(),
+                this.userId
         );
     }
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserEntity userId;
 }

@@ -30,9 +30,10 @@ public class PostGetResponseDto {
     }
 
     public static PostGetResponseDto from(PostEntity post, String name) {
+        Long userId = (post.getUserId() != null) ? post.getUserId().getUserId() : null;
         return PostGetResponseDto.builder()
                 .postId(post.getPostId())
-                .userId(post.getUserId().getUserId())
+                .userId(userId)
                 .name(name)
                 .postTime(post.getPostTime())
                 .title(post.getTitle())

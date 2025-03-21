@@ -27,11 +27,11 @@ public class PostController {
 
     //게시글 작성
     @PostMapping
-    public ResponseEntity<PostCreateResponseDto> create(@Valid @RequestBody PostCreateRequestDto createRequest) {
-        PostEntity postEntity = postService.create(createRequest);
-        PostCreateResponseDto responseDto = PostCreateResponseDto.from(postEntity);
+    public ResponseEntity<PostCreateResponseDto> create(@RequestParam Long userId, @Valid @RequestBody PostCreateRequestDto createRequest) {
+        PostEntity postEntity = postService.create(userId, createRequest);
+        String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
+        PostCreateResponseDto responseDto = PostCreateResponseDto.from(postEntity, name);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
-
     }
 
     //개별 게시글 조회
@@ -52,16 +52,20 @@ public class PostController {
 
     //게시글 수정
     @PutMapping("/{postId}")
-    public ResponseEntity<PostUpdateResponseDto> update(@PathVariable Long postId, @Valid @RequestBody PostUpdateRequestDto updateRequest) {
-        PostEntity postEntity = postService.update(postId, updateRequest);
-        PostUpdateResponseDto response = PostUpdateResponseDto.from(postEntity);
+    public ResponseEntity<PostUpdateResponseDto> update(@PathVariable Long postId,
+                                                        @RequestParam Long userId,
+                                                        @Valid @RequestBody PostUpdateRequestDto updateRequest) {
+        PostEntity postEntity = postService.update(postId, userId, updateRequest);
+        String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
+        PostUpdateResponseDto response = PostUpdateResponseDto.from(postEntity, name);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //게시글 삭제
     @DeleteMapping("/{postId}")
-    public ResponseEntity<PostDeleteResponseDto> delete(@PathVariable Long postId) {
-        PostEntity deletedPost = postService.delete(postId);
+    public ResponseEntity<PostDeleteResponseDto> delete(@PathVariable Long postId,
+                                                        @RequestParam Long userId) {
+        PostEntity deletedPost = postService.delete(postId, userId);
         PostDeleteResponseDto responseDto = PostDeleteResponseDto.from(deletedPost);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }

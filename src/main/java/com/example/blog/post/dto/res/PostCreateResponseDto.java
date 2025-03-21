@@ -11,14 +11,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PostCreateResponseDto {
     private Long postId;
+    private Long userId;
+    private String name;
     private String title;
     private String content;
     private boolean featured;
     private LocalDateTime postTime;
 
     @Builder
-    public PostCreateResponseDto(Long postId, String title, String content, boolean featured, LocalDateTime postTime) {
+    public PostCreateResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDateTime postTime) {
         this.postId = postId;
+        this.userId = userId;
+        this.name = name;
         this.title = title;
         this.content = content;
         this.featured = featured;
@@ -26,9 +30,12 @@ public class PostCreateResponseDto {
     }
 
 
-    public static PostCreateResponseDto from(PostEntity post) {
+    public static PostCreateResponseDto from(PostEntity post, String name) {
+        Long userId = (post.getUserId() != null) ? post.getUserId().getUserId() : null;
         return PostCreateResponseDto.builder()
                 .postId(post.getPostId())
+                .userId(userId)
+                .name(name)
                 .title(post.getTitle())
                 .content(post.getContent())
                 .featured(post.isFeatured())

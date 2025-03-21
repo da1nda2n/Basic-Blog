@@ -5,6 +5,8 @@ import com.example.blog.post.dto.req.PostUpdateRequestDto;
 import com.example.blog.post.dto.res.PostGetResponseDto;
 import com.example.blog.post.entity.PostEntity;
 import com.example.blog.post.repository.PostRepository;
+import com.example.blog.user.entity.UserEntity;
+import com.example.blog.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,18 @@ import java.util.List;
 public class PostService {
 
     public final PostRepository postRepository;
+    public final UserRepository userRepository;
 
     //게시글 작성
-    public PostEntity create(PostCreateRequestDto postCreateRequestDto) {
+    public PostEntity create(Long requestUserId, PostCreateRequestDto postCreateRequestDto) {
+        UserEntity user = userRepository.findByUserId(requestUserId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
         PostEntity post = PostEntity.builder()
                 .title(postCreateRequestDto.getTitle())
                 .content(postCreateRequestDto.getContent())
                 .featured(postCreateRequestDto.isFeatured())
                 .postTime(LocalDateTime.now())
+                .userId(user)
                 .build();
         return postRepository.save(post);
     }
@@ -47,17 +53,27 @@ public class PostService {
     }
 
     //게시글 수정
-    public PostEntity update(Long postId, PostUpdateRequestDto postUpdateRequestDto) {
+    public PostEntity update(Long postId, Long requestUserId,PostUpdateRequestDto postUpdateRequestDto) {
         PostEntity existingPost = postRepository.findByPostId(postId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+        UserEntity user = userRepository.findByUserId(requestUserId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+        if (existingPost.getUserId() == null || !existingPost.getUserId().getUserId().equals(requestUserId)) {
+            throw new RuntimeException("수정 권한이 없습니다.");
+        }
         PostEntity updatedPost = existingPost.update(postUpdateRequestDto);
         return postRepository.save(updatedPost);
     }
 
     //게시글 삭제
-    public PostEntity delete(Long postId) {
+    public PostEntity delete(Long postId, Long requestUserId) {
         PostEntity post = postRepository.findByPostId(postId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+        UserEntity user = userRepository.findByUserId(requestUserId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+        if (post.getUserId() == null || !post.getUserId().getUserId().equals(requestUserId)) {
+            throw new RuntimeException("삭제 권한이 없습니다.");
+        }
         postRepository.delete(post);
         return post;
     }
