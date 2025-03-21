@@ -23,8 +23,9 @@ public class PostService {
 
     //게시글 작성
     public PostEntity create(Long requestUserId, PostCreateRequestDto postCreateRequestDto) {
-        UserEntity user = userRepository.findByUserId(requestUserId)
+        UserEntity user = userRepository.findById(requestUserId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+
         PostEntity post = PostEntity.builder()
                 .title(postCreateRequestDto.getTitle())
                 .content(postCreateRequestDto.getContent())
@@ -44,20 +45,22 @@ public class PostService {
     //게시글 리스트 조회
     public List<PostGetResponseDto> getPostList() {
         List<PostEntity> postEntities = postRepository.findAll();
-        List<PostGetResponseDto> postListResponseDtoListShow = new ArrayList<>();
+        List<PostGetResponseDto> responseList = new ArrayList<>();
         for (PostEntity postEntity : postEntities) {
             String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
-            postListResponseDtoListShow.add(PostGetResponseDto.from(postEntity, name));
+            responseList.add(PostGetResponseDto.from(postEntity, name));
         }
-        return postListResponseDtoListShow;
+        return responseList;
     }
 
     //게시글 수정
-    public PostEntity update(Long postId, Long requestUserId,PostUpdateRequestDto postUpdateRequestDto) {
+    public PostEntity update(Long postId, Long requestUserId, PostUpdateRequestDto postUpdateRequestDto) {
         PostEntity existingPost = postRepository.findByPostId(postId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
-        UserEntity user = userRepository.findByUserId(requestUserId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+
+        UserEntity user = userRepository.findById(requestUserId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+
         if (existingPost.getUserId() == null || !existingPost.getUserId().getUserId().equals(requestUserId)) {
             throw new RuntimeException("수정 권한이 없습니다.");
         }
@@ -69,8 +72,10 @@ public class PostService {
     public PostEntity delete(Long postId, Long requestUserId) {
         PostEntity post = postRepository.findByPostId(postId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
-        UserEntity user = userRepository.findByUserId(requestUserId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+
+        UserEntity user = userRepository.findById(requestUserId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+
         if (post.getUserId() == null || !post.getUserId().getUserId().equals(requestUserId)) {
             throw new RuntimeException("삭제 권한이 없습니다.");
         }

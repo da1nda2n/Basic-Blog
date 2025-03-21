@@ -27,7 +27,8 @@ public class PostController {
 
     //게시글 작성
     @PostMapping
-    public ResponseEntity<PostCreateResponseDto> create(@RequestParam Long userId, @Valid @RequestBody PostCreateRequestDto createRequest) {
+    public ResponseEntity<PostCreateResponseDto> create(@RequestParam Long userId,
+                                                        @Valid @RequestBody PostCreateRequestDto createRequest) {
         PostEntity postEntity = postService.create(userId, createRequest);
         String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
         PostCreateResponseDto responseDto = PostCreateResponseDto.from(postEntity, name);
@@ -56,8 +57,7 @@ public class PostController {
                                                         @RequestParam Long userId,
                                                         @Valid @RequestBody PostUpdateRequestDto updateRequest) {
         PostEntity postEntity = postService.update(postId, userId, updateRequest);
-        String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
-        PostUpdateResponseDto response = PostUpdateResponseDto.from(postEntity, name);
+        PostUpdateResponseDto response = PostUpdateResponseDto.from(postEntity);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

@@ -34,16 +34,6 @@ public class PostEntity {
     @JoinColumn(name = "userId")
     private UserEntity userId;
 
-    @Builder
-    public PostEntity(Long postId, LocalDateTime postTime, String title, String content, boolean featured, UserEntity userId) {
-        this.postId = postId;
-        this.postTime = postTime;
-        this.title = title;
-        this.content = content;
-        this.featured = featured;
-        this.userId = userId;
-    }
-
     public PostEntity update(PostUpdateRequestDto dto) {
         return new PostEntity(
                 this.postId,

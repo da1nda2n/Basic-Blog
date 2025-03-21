@@ -4,14 +4,12 @@ import com.example.blog.post.entity.PostEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PostDeleteResponseDto {
-    private String message;
+    private final String message;
 
     public static PostDeleteResponseDto from(PostEntity post) {
         return PostDeleteResponseDto.builder()
