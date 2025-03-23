@@ -31,7 +31,7 @@ public class PostService {
                 .content(postCreateRequestDto.getContent())
                 .featured(postCreateRequestDto.isFeatured())
                 .postTime(LocalDateTime.now())
-                .userId(user)
+                .user(user)
                 .build();
         return postRepository.save(post);
     }
@@ -47,7 +47,7 @@ public class PostService {
         List<PostEntity> postEntities = postRepository.findAll();
         List<PostGetResponseDto> responseList = new ArrayList<>();
         for (PostEntity postEntity : postEntities) {
-            String name = postEntity.getUserId() != null ? postEntity.getUserId().getName() : null;
+            String name = postEntity.getUser() != null ? postEntity.getUser().getName() : null;
             responseList.add(PostGetResponseDto.from(postEntity, name));
         }
         return responseList;
@@ -61,7 +61,7 @@ public class PostService {
         UserEntity user = userRepository.findById(requestUserId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
 
-        if (existingPost.getUserId() == null || !existingPost.getUserId().getUserId().equals(requestUserId)) {
+        if (existingPost.getUser() == null || !existingPost.getUser().getUserId().equals(requestUserId)) {
             throw new RuntimeException("수정 권한이 없습니다.");
         }
         PostEntity updatedPost = existingPost.update(postUpdateRequestDto);
@@ -76,7 +76,7 @@ public class PostService {
         UserEntity user = userRepository.findById(requestUserId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
 
-        if (post.getUserId() == null || !post.getUserId().getUserId().equals(requestUserId)) {
+        if (post.getUser() == null || !post.getUser().getUserId().equals(requestUserId)) {
             throw new RuntimeException("삭제 권한이 없습니다.");
         }
         postRepository.delete(post);
