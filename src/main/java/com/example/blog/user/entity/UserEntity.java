@@ -10,8 +10,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
 @Table(name = "users")
 public class UserEntity {
     @Id
@@ -27,17 +25,20 @@ public class UserEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = true)
+    @Column
     private String location;
 
-    @Column(nullable = true)
+    @Column
     private String birth;
 
-    @Column(nullable = true)
+    @Column
     private String phone;
 
-    @Column(nullable = true)
+    @Column
     private String introduction;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostEntity> posts;
 
     @Builder
     public UserEntity(String loginId, Long userId, String password, String name, String location, String birth, String phone, String introduction) {
@@ -51,21 +52,22 @@ public class UserEntity {
         this.introduction = introduction;
     }
 
-    public UserEntity update(UserUpdateRequestDto dto) {
-        return new UserEntity(
-                this.loginId,
-                this.userId,
-                this.password,
-                dto.getName() != null ? dto.getName() : this.name,
-                dto.getLocation() != null ? dto.getLocation() : this.location,
-                dto.getBirth() != null ? dto.getBirth() : this.birth,
-                dto.getPhone() != null ? dto.getPhone() : this.phone,
-                dto.getIntroduction() != null ? dto.getIntroduction() : this.introduction
-        );
+    //현재 인스턴스의 필드를 직접 수정(반환x)
+    public void update(UserUpdateRequestDto dto) {
+        if(dto.getName() != null) {
+            this.name = dto.getName();
+        }
+        if(dto.getLocation() != null) {
+            this.location = dto.getLocation();
+        }
+        if(dto.getBirth() != null) {
+            this.birth = dto.getBirth();
+        }
+        if(dto.getPhone() != null) {
+            this.phone = dto.getPhone();
+        }
+        if(dto.getIntroduction() != null) {
+            this.introduction = dto.getIntroduction();
+        }
     }
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostEntity> posts;
-
-
 }

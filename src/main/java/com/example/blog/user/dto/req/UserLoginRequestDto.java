@@ -6,10 +6,9 @@ import lombok.Getter;
 @Getter
 public class UserLoginRequestDto {
 
-    @NotBlank(message = "ID가 입력되지 않았습니다.")
+    @NotBlank(message = "ID를 입력해주세요.")
     private String loginId;
 
-    @NotBlank(message = "패스워드가 입력되지 않았습니다.")
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
-
 }

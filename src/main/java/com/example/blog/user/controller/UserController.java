@@ -1,12 +1,7 @@
 package com.example.blog.user.controller;
 
-import com.example.blog.user.dto.req.UserLoginRequestDto;
-import com.example.blog.user.dto.req.UserSignupRequestDto;
-import com.example.blog.user.dto.req.UserUpdateRequestDto;
-import com.example.blog.user.dto.res.UserGetResponseDto;
-import com.example.blog.user.dto.res.UserLoginResponseDto;
-import com.example.blog.user.dto.res.UserSignupResponseDto;
-import com.example.blog.user.dto.res.UserUpdateResponseDto;
+import com.example.blog.user.dto.req.*;
+import com.example.blog.user.dto.res.*;
 import com.example.blog.user.entity.UserEntity;
 import com.example.blog.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

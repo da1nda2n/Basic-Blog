@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class UserGetResponseDto {
-    private Long userId;
-    private String name;
-    private String location;
-    private String birth;
-    private String phone;
-    private String introduction;
+    private final Long userId;
+    private final String name;
+    private final String location;
+    private final String birth;
+    private final String phone;
+    private final String introduction;
 
     @Builder
     public UserGetResponseDto(Long userId, String name, String location, String birth, String phone, String introduction) {

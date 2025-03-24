@@ -21,7 +21,4 @@ public class PostCreateRequestDto {
 
     @NotNull
     private LocalDateTime postTime;
-
-
-
 }
