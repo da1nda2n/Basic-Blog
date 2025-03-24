@@ -25,7 +25,8 @@ public class PostController {
     public ResponseEntity<PostCreateResponseDto> create(@RequestParam Long userId,
                                                         @Valid @RequestBody PostCreateRequestDto createRequest) {
         PostEntity postEntity = postService.create(userId, createRequest);
-        PostCreateResponseDto postCreateResponseDto = PostCreateResponseDto.from(postEntity);
+        String name = postEntity.getUser() != null ? postEntity.getUser().getName() : null;
+        PostCreateResponseDto postCreateResponseDto = PostCreateResponseDto.from(postEntity, name);
         return ResponseEntity.status(HttpStatus.CREATED).body(postCreateResponseDto);
     }
 

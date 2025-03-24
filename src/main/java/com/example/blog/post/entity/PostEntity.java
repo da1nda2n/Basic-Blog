@@ -15,10 +15,10 @@ public class PostEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition ="TEXT", nullable = false)
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
