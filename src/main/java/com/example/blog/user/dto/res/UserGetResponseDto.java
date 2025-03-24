@@ -13,14 +13,16 @@ public class UserGetResponseDto {
     private String location;
     private String birth;
     private String phone;
+    private String introduction;
 
     @Builder
-    public UserGetResponseDto(Long userId, String name, String location, String birth, String phone) {
+    public UserGetResponseDto(Long userId, String name, String location, String birth, String phone, String introduction) {
         this.userId = userId;
         this.name = name;
         this.location = location;
         this.birth = birth;
         this.phone = phone;
+        this.introduction = introduction;
     }
 
     public static UserGetResponseDto from(UserEntity user) {
@@ -30,6 +32,7 @@ public class UserGetResponseDto {
                 .location(user.getLocation())
                 .birth(user.getBirth())
                 .phone(user.getPhone())
+                .introduction(user.getIntroduction())
                 .build();
     }
 
