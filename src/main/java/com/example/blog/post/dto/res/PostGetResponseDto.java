@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 public class PostGetResponseDto {
@@ -15,10 +14,10 @@ public class PostGetResponseDto {
     private final String title;
     private final String content;
     private final boolean featured;
-    private final LocalDateTime createdAt;
+    private final LocalDate createdAt;
 
     @Builder
-    public PostGetResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDateTime createdAt) {
+    public PostGetResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDate createdAt) {
         this.postId = postId;
         this.userId = userId;
         this.name = name;
@@ -30,7 +29,7 @@ public class PostGetResponseDto {
 
     public static PostGetResponseDto from(PostEntity post, String name) {
         Long userId = (post.getUser() != null) ? post.getUser().getUserId() : null;
-        LocalDateTime postTime = post.getCreatedAt();
+        LocalDate postTime = post.getCreatedAt();
         return PostGetResponseDto.builder()
                 .postId(post.getPostId())
                 .userId(userId)
