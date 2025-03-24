@@ -1,6 +1,5 @@
 package com.example.blog.post.entity;
 
-import com.example.blog.BaseTimeEntity;
 import com.example.blog.post.dto.req.PostUpdateRequestDto;
 import com.example.blog.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Table(name = "posts")
-public class PostEntity extends BaseTimeEntity {
+public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;

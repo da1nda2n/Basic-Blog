@@ -14,22 +14,22 @@ public class PostGetResponseDto {
     private final String title;
     private final String content;
     private final boolean featured;
-    private final LocalDateTime createdAt;
+    private final LocalDateTime postTime;
 
     @Builder
-    public PostGetResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDateTime createdAt) {
+    public PostGetResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDateTime postTime) {
         this.postId = postId;
         this.userId = userId;
         this.name = name;
         this.title = title;
         this.content = content;
         this.featured = featured;
-        this.createdAt = createdAt;
+        this.postTime = postTime;
     }
 
     public static PostGetResponseDto from(PostEntity post, String name) {
         Long userId = (post.getUser() != null) ? post.getUser().getUserId() : null;
-        LocalDateTime postTime = post.getCreatedAt();
+        LocalDateTime postTime = post.getPostTime();
         return PostGetResponseDto.builder()
                 .postId(post.getPostId())
                 .userId(userId)
@@ -37,7 +37,7 @@ public class PostGetResponseDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .featured(post.isFeatured())
-                .createdAt(postTime)
+                .postTime(postTime)
                 .build();
     }
 }
