@@ -22,6 +22,7 @@ public class PostService {
     public final UserRepository userRepository;
 
     //게시글 작성
+    @Transactional
     public PostEntity create(Long requestUserId, PostCreateRequestDto postCreateRequestDto) {
         UserEntity user = userRepository.findById(requestUserId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
@@ -71,6 +72,7 @@ public class PostService {
     }
 
     //게시글 삭제
+    @Transactional
     public PostEntity delete(Long postId, Long requestUserId) {
         PostEntity post = postRepository.findByPostId(postId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
