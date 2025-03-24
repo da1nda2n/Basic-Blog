@@ -4,6 +4,8 @@ import com.example.blog.post.entity.PostEntity;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class PostCreateResponseDto {
     private final Long postId;
@@ -12,15 +14,17 @@ public class PostCreateResponseDto {
     private final String title;
     private final String content;
     private final boolean featured;
+    private final LocalDateTime postTime;
 
     @Builder
-    public PostCreateResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured) {
+    public PostCreateResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDateTime postTime) {
         this.postId = postId;
         this.userId = userId;
         this.name = name;
         this.title = title;
         this.content = content;
         this.featured = featured;
+        this.postTime = postTime;
     }
 
 
@@ -33,6 +37,7 @@ public class PostCreateResponseDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .featured(post.isFeatured())
+                .postTime(post.getPostTime())
                 .build();
     }
 }
