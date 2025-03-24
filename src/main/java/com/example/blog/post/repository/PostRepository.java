@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
     Optional<PostEntity> findByPostId(Long postId);
-    boolean existsByPostId(Long PostId);
 }

@@ -6,10 +6,10 @@ import lombok.Getter;
 
 @Getter
 public class PostUpdateRequestDto {
-    @NotBlank(message = "제목이 입력되지 않았습니다.")
+    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
 
-    @NotBlank(message = "내용이 입력되지 않았습니다.")
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
     @NotNull

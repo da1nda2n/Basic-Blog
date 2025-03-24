@@ -3,42 +3,42 @@ package com.example.blog.post.dto.res;
 import com.example.blog.post.entity.PostEntity;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
 public class PostGetResponseDto {
-    private Long postId;
-    private Long userId;
-    private String name;
-    private LocalDateTime postTime;
-    private String title;
-    private String content;
-    private boolean featured;
+    private final Long postId;
+    private final Long userId;
+    private final String name;
+    private final String title;
+    private final String content;
+    private final boolean featured;
+    private final LocalDateTime createdAt;
 
     @Builder
-    public PostGetResponseDto(Long postId, Long userId, String name, LocalDateTime postTime, String title, String content, boolean featured) {
+    public PostGetResponseDto(Long postId, Long userId, String name, String title, String content, boolean featured, LocalDateTime createdAt) {
         this.postId = postId;
         this.userId = userId;
         this.name = name;
-        this.postTime = postTime;
         this.title = title;
         this.content = content;
         this.featured = featured;
+        this.createdAt = createdAt;
     }
 
     public static PostGetResponseDto from(PostEntity post, String name) {
         Long userId = (post.getUser() != null) ? post.getUser().getUserId() : null;
+        LocalDateTime postTime = post.getCreatedAt();
         return PostGetResponseDto.builder()
                 .postId(post.getPostId())
                 .userId(userId)
                 .name(name)
-                .postTime(post.getPostTime())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .featured(post.isFeatured())
+                .createdAt(postTime)
                 .build();
     }
 }

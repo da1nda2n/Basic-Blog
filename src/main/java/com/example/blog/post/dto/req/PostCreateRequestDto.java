@@ -10,18 +10,12 @@ import java.time.LocalDateTime;
 @Getter
 public class PostCreateRequestDto {
 
-    @NotBlank(message = "제목이 입력되지 않았습니다.")
+    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
 
-    @NotBlank(message = "내용이 입력되지 않았습니다.")
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
     @NotNull
     private boolean featured;
-
-    @NotNull
-    private LocalDateTime postTime;
-
-
-
 }

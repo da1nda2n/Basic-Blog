@@ -25,8 +25,7 @@ public class PostController {
     public ResponseEntity<PostCreateResponseDto> create(@RequestParam Long userId,
                                                         @Valid @RequestBody PostCreateRequestDto createRequest) {
         PostEntity postEntity = postService.create(userId, createRequest);
-        String name = postEntity.getUser() != null ? postEntity.getUser().getName() : null;
-        PostCreateResponseDto postCreateResponseDto = PostCreateResponseDto.from(postEntity, name);
+        PostCreateResponseDto postCreateResponseDto = PostCreateResponseDto.from(postEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(postCreateResponseDto);
     }
 
@@ -58,8 +57,8 @@ public class PostController {
 
     @Operation(summary = "게시글 삭제")
     @DeleteMapping("/{postId}")
-    public ResponseEntity<PostDeleteResponseDto> delete(@PathVariable Long postId,
-                                                        @RequestParam Long userId) {
+    public ResponseEntity<Void> delete(@PathVariable Long postId,
+                                       @RequestParam Long userId) {
         postService.delete(postId, userId);
         return ResponseEntity.noContent().build();
     }

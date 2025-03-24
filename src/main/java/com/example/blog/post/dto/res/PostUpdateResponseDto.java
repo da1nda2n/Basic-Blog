@@ -6,22 +6,18 @@ import lombok.Getter;
 
 @Getter
 public class PostUpdateResponseDto {
-    private final String title;
-    private final String content;
+    private final Long postId;
     private final boolean featured;
 
     @Builder
-    public PostUpdateResponseDto(String title, String content, boolean featured) {
-        this.title = title;
-        this.content = content;
+    public PostUpdateResponseDto(Long postId, boolean featured) {
+        this.postId = postId;
         this.featured = featured;
     }
 
-
     public static PostUpdateResponseDto from(PostEntity post) {
         return PostUpdateResponseDto.builder()
-                .title(post.getTitle())
-                .content(post.getContent())
+                .postId(post.getPostId())
                 .featured(post.isFeatured())
                 .build();
     }
