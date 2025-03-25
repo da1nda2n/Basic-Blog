@@ -1,5 +1,7 @@
 package com.example.blog.post.service;
 
+import com.example.blog.exception.CustomException;
+import com.example.blog.exception.ErrorCode;
 import com.example.blog.post.dto.req.PostCreateRequestDto;
 import com.example.blog.post.dto.req.PostUpdateRequestDto;
 import com.example.blog.post.dto.res.PostGetResponseDto;
@@ -26,7 +28,7 @@ public class PostService {
     @Transactional
     public PostEntity create(Long requestUserId, PostCreateRequestDto postCreateRequestDto) {
         UserEntity user = userRepository.findById(requestUserId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ID_NOT_FOUND));
 
         PostEntity post = PostEntity.builder()
                 .title(postCreateRequestDto.getTitle())
@@ -42,7 +44,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostEntity getPost(Long postId) {
         return postRepository.findByPostId(postId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
 
     //게시글 리스트 조회
@@ -61,13 +63,13 @@ public class PostService {
     @Transactional
     public PostEntity update(Long postId, Long requestUserId, PostUpdateRequestDto postUpdateRequestDto) {
         PostEntity existingPost = postRepository.findByPostId(postId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-        UserEntity user = userRepository.findById(requestUserId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+        userRepository.findById(requestUserId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ID_NOT_FOUND));
 
         if (existingPost.getUser() == null || !existingPost.getUser().getUserId().equals(requestUserId)) {
-            throw new RuntimeException("수정 권한이 없습니다.");
+            throw new CustomException(ErrorCode.FORBIDDEN_PERMISSION);
         }
         PostEntity updatedPost = existingPost.update(postUpdateRequestDto);
         return postRepository.save(updatedPost);
@@ -75,17 +77,16 @@ public class PostService {
 
     //게시글 삭제
     @Transactional
-    public PostEntity delete(Long postId, Long requestUserId) {
+    public void delete(Long postId, Long requestUserId) {
         PostEntity post = postRepository.findByPostId(postId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 게시글입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-        UserEntity user = userRepository.findById(requestUserId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+        userRepository.findById(requestUserId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ID_NOT_FOUND));
 
         if (post.getUser() == null || !post.getUser().getUserId().equals(requestUserId)) {
-            throw new RuntimeException("삭제 권한이 없습니다.");
+            throw new CustomException(ErrorCode.FORBIDDEN_PERMISSION);
         }
         postRepository.delete(post);
-        return post;
     }
 }

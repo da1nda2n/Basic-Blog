@@ -1,5 +1,7 @@
 package com.example.blog.user.service;
 
+import com.example.blog.exception.CustomException;
+import com.example.blog.exception.ErrorCode;
 import com.example.blog.user.dto.req.*;
 import com.example.blog.user.dto.res.UserGetResponseDto;
 import com.example.blog.user.entity.UserEntity;
@@ -21,7 +23,7 @@ public class UserService {
     @Transactional
     public UserEntity signup(UserSignupRequestDto userSignupRequestDto) {
         if(userRepository.existsByLoginId(userSignupRequestDto.getLoginId())){
-            throw new RuntimeException("이미 존재하는 ID 입니다.");
+            throw new CustomException(ErrorCode.DUPLICATE_LOGIN_ID);
         }
 
         UserEntity user = UserEntity.builder()
@@ -36,10 +38,10 @@ public class UserService {
     @Transactional
     public UserEntity login(UserLoginRequestDto userLoginRequestDto) {
         UserEntity user = userRepository.findByLoginId(userLoginRequestDto.getLoginId())
-                .orElseThrow(()-> new RuntimeException("존재하지 않는 ID 입니다."));
+                .orElseThrow(()-> new CustomException(ErrorCode.ID_NOT_FOUND));
 
         if (!user.getPassword().equals(userLoginRequestDto.getPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.UNAUTHORIZED_LOGIN);
         }
         return user;
     }
@@ -48,7 +50,7 @@ public class UserService {
     @Transactional
     public UserEntity update(Long userId, UserUpdateRequestDto userUpdateRequestDto) {
         UserEntity existingUser = userRepository.findByUserId(userId)
-                .orElseThrow(()-> new RuntimeException("존재하지 않는 ID입니다."));
+                .orElseThrow(()-> new CustomException(ErrorCode.ID_NOT_FOUND));
         existingUser.update(userUpdateRequestDto); // 기존 인스턴스의 필드 직접 업데이트
         return userRepository.save(existingUser);
     }
@@ -67,7 +69,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserEntity getUser(Long userId) {
         return userRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 ID입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ID_NOT_FOUND));
     }
 
 }

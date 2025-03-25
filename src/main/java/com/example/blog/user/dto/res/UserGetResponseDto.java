@@ -3,7 +3,6 @@ package com.example.blog.user.dto.res;
 import com.example.blog.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class UserGetResponseDto {
