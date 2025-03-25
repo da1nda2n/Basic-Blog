@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 @Builder
 public class ErrorResponseEntity {
     private int status;
-    private String name;
     private String code;
     private String message;
 
@@ -17,7 +16,6 @@ public class ErrorResponseEntity {
                 .status(e.getHttpStatus())
                 .body(ErrorResponseEntity.builder()
                         .status(e.getHttpStatus().value())
-                        .name(e.name())
                         .code(e.getCode())
                         .message(e.getMessage())
                         .build());
